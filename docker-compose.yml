@@ -1,3 +1,4 @@
+
 version: '3.8'
 
 services:
@@ -34,11 +35,9 @@ services:
     networks:
       - app-network
 
-  # Service PHP/Laravel
+  # Service PHP/Laravel (mon-projet-app)
   app:
-    build:
-      context: .
-      dockerfile: docker/php/Dockerfile
+    image: ferdaoussbo/mon-projet-app:latest
     container_name: laravel_app
     restart: unless-stopped
     working_dir: /var/www
@@ -62,11 +61,9 @@ services:
     networks:
       - app-network
 
-  # Service Node/Angular
+  # Service Node/Angular (mon-projet-node)
   node:
-    build:
-      context: .
-      dockerfile: docker/node/Dockerfile
+    image: ferdaoussbo/mon-projet-node:latest
     container_name: angular_app
     volumes:
       - ./angular:/usr/src/app
@@ -79,7 +76,7 @@ services:
     command: >
       sh -c "npm install && 
       ng serve --host 0.0.0.0 --port 4200 --disable-host-check"
-      
+
 # Volumes et réseaux
 volumes:
   dbdata:
@@ -88,3 +85,4 @@ volumes:
 networks:
   app-network:
     driver: bridge
+
