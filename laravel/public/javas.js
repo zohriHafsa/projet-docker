@@ -2,16 +2,16 @@ const courses = [
     { name: 'Bases de données Relationnelle', link: 'Semestre1/BDR/BDR.html'},
     { name: 'Digital Skills', link: 'Semestre1/DS/DS.html' },
     { name: 'Structure de Données en C', link: 'Semestre1/C/C.html' },
-    { name: 'Langues étrangères 1', link: 'Semestre1/LE1/LE1.html' },
+    { name: 'Langues étrangères 1', link: 'Semestre1/LE1/LE.html' },
     { name: 'Réseaux informatiques', link: 'Semestre1/RI/RI.html' },
-    { name: 'Théorie des Graphes et Recherche Opérationnel', link: 'Semestre1/ThG_RO/ThG.html' },
+    { name: 'Théorie des Graphes et Recherche Opérationnel', link: 'Semestre1/ThG&RO/ThG.html' },
     { name: 'Architecture des Ordinateurs et Assembleur', link: 'Semestre1/AO/AO.html' },
     { name: 'Théories des Langages et compilation', link: 'Semestre2/TLC/TLC.html' },
     { name: 'Développement Web', link: 'Semestre2/DW/DW.html' },
     { name: 'Langues étrangères 2', link: 'Semestre2/LE2/LE2.html' },
     { name: 'Modélisation Orientée Objet', link: 'Semestre2/MOO/MOO.html' },
-    { name: 'Programmation Orientée Objet Java', link: 'Semestre2/JAVA/JAVA.html' },
-    { name: 'Culture & arts & sport skills', link: 'Semestre2/CASS/CASS.html' },
+    { name: 'Programmation Orientée Objet Java', link: 'Semestre2/POO/POO.html' },
+    { name: 'Culture & arts & sport skills', link: 'Semestre2/CAS/CAS.html' },
     { name: "Systèmes d'Exploitation et Linux", link: 'Semestre2/SEL/SEL.html' }
 ];
 
