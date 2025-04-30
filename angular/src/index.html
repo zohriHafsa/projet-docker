@@ -1,13 +1,50 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="fr" ng-app="myApp">
 <head>
-  <meta charset="utf-8">
-  <title>Angular</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta charset="UTF-8">
+    <title>Test Angular JS</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .box { 
+            padding: 20px; 
+            border: 1px solid #ccc; 
+            margin-top: 20px;
+            background: #f9f9f9;
+        }
+        button { 
+            padding: 10px 15px; 
+            background: #42a5f5; 
+            color: white; 
+            border: none; 
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <app-root></app-root>
+    <div ng-controller="MainController">
+        <h1>Test Angular JS</h1>
+        <input type="text" ng-model="name" placeholder="Entrez votre nom">
+        <button ng-click="showAlert()">Dire bonjour</button>
+        
+        <div class="box" ng-if="name">
+            <p>Bonjour, <strong>{{ name }}</strong> !</p>
+            <p>Nombre de clics : {{ clickCount }}</p>
+        </div>
+    </div>
+
+    <script>
+        // Module Angular
+        angular.module('myApp', [])
+            .controller('MainController', function($scope) {
+                $scope.name = '';
+                $scope.clickCount = 0;
+                
+                $scope.showAlert = function() {
+                    $scope.clickCount++;
+                    alert('Salut ' + $scope.name + ' !');
+                };
+            });
+    </script>
 </body>
 </html>
