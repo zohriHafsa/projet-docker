@@ -47,7 +47,10 @@ document.addEventListener('DOMContentLoaded', function() {
             filteredCourses.forEach(course => {
                 const div = document.createElement('div');
                 div.className = 'result-item';
-                div.innerHTML = <a href="${course.link}">${course.name}</a>;
+                const link = document.createElement('a');
+                link.href = course.link;
+                link.textContent = course.name;
+                div.appendChild(link);
                 searchResults.appendChild(div);
             });
             searchResults.classList.add('active');
