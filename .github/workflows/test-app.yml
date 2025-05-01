@@ -1,0 +1,66 @@
+name: CI - Test App (HTML/CSS/JS/PHP)
+
+on:
+  push:
+    branches:
+      - main
+      - LD-26-js
+      - LD-27-html
+      - LD-28-css
+      - LD-29-php
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: laravel
+          MYSQL_USER: laravel_user
+          MYSQL_PASSWORD: secret
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: pdo, pdo_mysql
+
+    - name: Check PHP syntax
+      run: |
+        find laravel/public -name "*.php" -exec php -l {} \;
+
+    - name: Check HTML syntax
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y tidy
+        find laravel/public -name "*.html" -exec tidy -q -e {} \; || true
+
+    - name: Check JavaScript syntax
+      run: |
+        npm install -g eslint
+        eslint laravel/public/*.js || true
+
+    - name: Install Stylelint
+      run: |
+        npm install -g stylelint stylelint-config-standard
+
+    - name: Check CSS syntax
+      run: |
+        stylelint "laravel/public/**/*.css"
