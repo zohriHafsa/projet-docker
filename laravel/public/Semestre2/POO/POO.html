@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Programmation Orientée Objet Java</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo-container">
+                <img src="../../ensate.png" alt="Logo UAE" class="logo">
+            </div>
+            <div class="nav-links">
+                <a href="../../accueil.html" class="active">Accueil</a>
+                <div class="dropdown">
+                    <button class="dropbtn">Génie informatique</button>
+                    <div class="dropdown-content">
+                        <div class="sub-dropdown">
+                            <a href="../../Semestre1/semestre1.html" class="sub-dropbtn">Semestre 1</a>
+                            <div class="sub-dropdown-content">
+                                <a href="../../Semestre1/BDR/BDR.html">Bases de données Relationnelle</a>
+                                <a href="../../Semestre1/DS/DS.html">Digital Skills</a>
+                                <a href="../../Semestre1/C/C.html">Structure de Données en C</a>
+                                <a href="../../Semestre1/LE1/LE.html">Langues étrangères 1</a>
+                                <a href="../../Semestre1/RI/RI.html">Réseaux informatiques</a>
+                                <a href="../../Semestre1/ThG_RO/ThG.html">Théorie des Graphes et RO</a>
+                                <a href="../../Semestre1/AO/AO.html">Architecture des Ordinateurs</a>
+                            </div>
+                        </div>
+                        <div class="sub-dropdown">
+                            <a href="../semestre2.html" class="sub-dropbtn">Semestre 2</a>
+                            <div class="sub-dropdown-content">
+                                <a href="../TLC/TLC.html">Théories des Langages et compilation</a>
+                                <a href="../DW/DW.html">Développement Web</a>
+                                <a href="../LE2/LE2.html">Langues étrangères 2</a>
+                                <a href="../MOO/MOO.html">Modélisation Orientée Objet</a>
+                                <a href="../POO/POO.html">Programmation Orientée Objet Java</a>
+                                <a href="../CAS/CAS.html">Culture & arts & sport skills</a>
+                                <a href="../SEL/SEL.html">Systèmes d'Exploitation et Linux</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="../../GI1.html" class="active">Déconnexion</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="content-section">
+            <h1 class="section-title" style="color: black;">Programmation Orientée Objet Java</h1>
+            
+            <h2 style="color: #4169E1; margin-top: 3rem;">Cours:</h2>
+            <div id="cours-list"></div>
+
+            <h2 style="color: #4169E1; margin-top: 3rem;">TPs:</h2>
+            <div id="td-list"></div>
+            <div id="tp-list"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>suivez-nous et contactez-nous ici ! </p> 
+        <div class="social-links">
+            <center>
+                <a target="_blank" href="https://www.instagram.com/ensa_tetouan_officiel?igsh=N3U1MTMzdDYxbmFp" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a  href="mailto:ensate@uae.ac.ma" class="social-icon"  target="_blank" ><i class="fas fa-envelope"></i></a>
+            </center>
+        </div> 
+        <hr>
+        <p>©2025 ENSA TÉTOUAN-Université Abdelmalek Essaâdi. TOUS LES DROITS SONT RÉSERVÉS. </p>
+    </footer>
+    <script>
+        function createFileLinks(files, module) {
+            if (!files.length) return '';
+            const cards = files.map(file => {
+                let display = file.replace(/^(Cours|Td|Tp) - /i, '').replace(/\.pdf$/i, '').replace(/_/g, ' ');
+                display = display.replace(/^(Cours|TD|TP) ?: ?/i, '');
+                return `<div class="pdf-card">
+                    <h3>${display}</h3>
+                    <a href="${file}" target="_blank"><p>Voir le PDF</p></a>
+                </div>`;
+            }).join('');
+            return `<div class="pdf-container">${cards}</div>`;
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            const module = 'POO';
+            fetch(`../../get_files.php?module=${module}`)
+                .then(response => response.json())
+                .then(data => {
+                    const statics = Array.from(document.querySelectorAll('.pdf-container .pdf-card a')).map(a => a.getAttribute('href'));
+                    document.getElementById('cours-list').innerHTML = createFileLinks(data.cours.filter(f => !statics.includes(f)), module);
+                    document.getElementById('td-list') && (document.getElementById('td-list').innerHTML = createFileLinks(data.td.filter(f => !statics.includes(f)), module));
+                    document.getElementById('tp-list') && (document.getElementById('tp-list').innerHTML = createFileLinks(data.tp.filter(f => !statics.includes(f)), module));
+                });
+        });
+    </script> 
+</body>
+</html> 
