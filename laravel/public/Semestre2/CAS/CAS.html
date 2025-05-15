@@ -25,7 +25,7 @@
                                 <a href="../../Semestre1/C/C.html">Structure de Données en C</a>
                                 <a href="../../Semestre1/LE1/LE.html">Langues étrangères 1</a>
                                 <a href="../../Semestre1/RI/RI.html">Réseaux informatiques</a>
-                                <a href="../../Semestre1/ThG&RO/ThG.html">Théorie des Graphes et RO</a>
+                                <a href="../../Semestre1/ThG_RO/ThG.html">Théorie des Graphes et RO</a>
                                 <a href="../../Semestre1/AO/AO.html">Architecture des Ordinateurs</a>
                             </div>
                         </div>
@@ -52,7 +52,10 @@
             <h1 class="section-title" style="color: black;">Culture & arts & sport skills</h1>
             
             <h2 style="color: #4169E1; margin-top: 3rem;">Cours:</h2>
-            
+            <div id="cours-list"></div>
+
+            <h2 style="color: #4169E1; margin-top: 3rem;">TDs:</h2>
+            <div id="td-list"></div>
         </div>
     </main>
 
@@ -60,12 +63,38 @@
         <p>suivez-nous et contactez-nous ici ! </p> 
         <div class="social-links">
             <center>
-                <a href="https://www.instagram.com/ensa_tetouan_officiel?igsh=N3U1MTMzdDYxbmFp" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="mailto:ensate@uae.ac.ma" class="social-icon"  target="_blank"><i class="far fa-envelope"></i></a>
+                <a target="_blank" href="https://www.instagram.com/ensa_tetouan_officiel?igsh=N3U1MTMzdDYxbmFp" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a  href="mailto:ensate@uae.ac.ma" class="social-icon"  target="_blank" ><i class="fas fa-envelope"></i></a>
             </center>
         </div> 
         <hr>
-        <p>©2025 ENSA TÉTOUAN-Université Abdelmalek Essaâdi </p>
+        <p>©2025 ENSA TÉTOUAN-Université Abdelmalek Essaâdi. TOUS LES DROITS SONT RÉSERVÉS. </p>
     </footer>
+    <script>
+        function createFileLinks(files, module) {
+            if (!files.length) return '';
+            const cards = files.map(file => {
+                let display = file.replace(/^(Cours|Td|Tp) - /i, '').replace(/\.pdf$/i, '').replace(/_/g, ' ');
+                display = display.replace(/^(Cours|TD|TP) ?: ?/i, '');
+                return `<div class="pdf-card">
+                    <h3>${display}</h3>
+                    <a href="${file}" target="_blank"><p>Voir le PDF</p></a>
+                </div>`;
+            }).join('');
+            return `<div class="pdf-container">${cards}</div>`;
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            const module = 'CAS';
+            fetch(`../../get_files.php?module=${module}`)
+                .then(response => response.json())
+                .then(data => {
+                    const statics = Array.from(document.querySelectorAll('.pdf-container .pdf-card a')).map(a => a.getAttribute('href'));
+                    document.getElementById('cours-list').innerHTML = createFileLinks(data.cours.filter(f => !statics.includes(f)), module);
+                    document.getElementById('td-list') && (document.getElementById('td-list').innerHTML = createFileLinks(data.td.filter(f => !statics.includes(f)), module));
+                    document.getElementById('tp-list') && (document.getElementById('tp-list').innerHTML = createFileLinks(data.tp.filter(f => !statics.includes(f)), module));
+                });
+        });
+    </script>
 </body>
 </html> 

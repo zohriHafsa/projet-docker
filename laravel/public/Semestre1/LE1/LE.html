@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Langues étrangères</title>
+    <title>Langues étrangères 1</title>
     <link rel="stylesheet" href="../../styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -25,7 +25,7 @@
                                 <a href="../C/C.html">Structure de Données en C</a>
                                 <a href="../LE1/LE.html">Langues étrangères 1</a>
                                 <a href="../RI/RI.html">Réseaux informatiques</a>
-                                <a href="../ThG&RO/ThG.html">Théorie des Graphes et RO</a>
+                                <a href="../ThG_RO/ThG.html">Théorie des Graphes et RO</a>
                                 <a href="../AO/AO.html">Architecture des Ordinateurs et Assembleur</a>
                             </div>
                         </div>
@@ -51,59 +51,15 @@
         <div class="content-section">
             <h1 class="section-title" style="color: black;">Langues étrangères: Espagnole</h1>            
             <h2 style="color: #4169E1; margin-top: 3rem;">Cours:</h2>
-            <div class="pdf-container">
-                <div class="pdf-card">
-                    <h3>Chapitre 1 </h3>
-                    <a href="SES 1 presentarse+numeros.ppt.pdf" target="_blank">
-                        <p>Voir le pdf</p>
-                    </a>
-                </div>
-                <div class="pdf-card">
-                    <h3>Chapitre 2</h3>
-                    <a href="SES 2   que hora es.pptx.pdf" target="_blank">
-                        <p>Voir le pdf</p>
-                    </a>
-                </div>
-                <div class="pdf-card">
-                    <h3>Chapitre 3</h3>
-                    <a href="SES 3   ser y estar.ppt.pdf" target="_blank">
-                        <p>Voir le pdf</p>
-                    </a>
-                </div>
-                <div class="pdf-card">
-                    <h3>Chapitre 4</h3>
-                    <a href="SES 4 ser y estar.ppt.pdf" target="_blank">
-                        <p>Voir le pdf</p>
-                    </a>
-                </div>
-                <div class="pdf-card">
-                    <h3>Chapitre 5</h3>
-                    <a href="SES 5 Ser o Estar.pptx.pdf" target="_blank">
-                        <p>Voir le pdf</p>
-                    </a>
-                </div>
-                <div class="pdf-card">
-                    <h3>Chapitre 6</h3>
-                    <a href="SES 6 descripciones.pptx.pdf" target="_blank">
-                        <p>Voir le pdf</p>
-                    </a>
-                </div>
-                <div class="pdf-card">
-                    <h3>Chapitre 7</h3>
-                    <a href="SES 8 DE COMPRAS.pptx.pdf" target="_blank">
-                        <p>Voir le pdf</p>
-                    </a>
-                </div>
-            </div>
+            <div class="pdf-container" id="espagnol-cours-list"></div>
+            <div class="pdf-container" id="espagnol-td-list"></div>
+            <div class="pdf-container" id="espagnol-tp-list"></div>
+
             <h1 class="section-title" style="color: black;">Langues étrangères: Français</h1>  
-            <h2 style="color: #4169E1; margin-top: 3rem;">Cours:</h2> 
-            <div>
-                <div class="pdf-card">
-                    <a href="Les_cle_769_s_du_DELF_B2_Nouvelle_e_769_dition_Livre_de_l_e_769_le_768_ve_-_E_769_ditions_Maison_des_Langues.pdf" target="_blank">
-                        <p>Voir le pdf</p>
-                    </a>
-                </div>
-            </div>         
+            <h2 style="color: #4169E1; margin-top: 3rem;">Cours:</h2>
+            <div class="pdf-container" id="francais-cours-list"></div>
+            <div class="pdf-container" id="francais-td-list"></div>
+            <div class="pdf-container" id="francais-tp-list"></div>
 
         </div>
     </main>
@@ -112,12 +68,44 @@
         <p>suivez-nous et contactez-nous ici ! </p> 
         <div class="social-links">
             <center>
-                <a href="https://www.instagram.com/ensa_tetouan_officiel?igsh=N3U1MTMzdDYxbmFp" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="mailto:ensate@uae.ac.ma" class="social-icon"  target="_blank"><i class="far fa-envelope"></i></a>
+                <a target="_blank" href="https://www.instagram.com/ensa_tetouan_officiel?igsh=N3U1MTMzdDYxbmFp" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a  href="mailto:ensate@uae.ac.ma" class="social-icon"  target="_blank" ><i class="fas fa-envelope"></i></a>
             </center>
         </div> 
         <hr>
-        <p>©2025 ENSA TÉTOUAN-Université Abdelmalek Essaâdi </p>
+        <p>©2025 ENSA TÉTOUAN-Université Abdelmalek Essaâdi. TOUS LES DROITS SONT RÉSERVÉS. </p>
     </footer>
+    <script>
+        function createFileLinks(files, module, submodule) {
+        return files.map(file => {
+            let display = file.replace(/^(Cours|Td|Tp) - /i, '').replace(/\.pdf$/i, '').replace(/_/g, ' ');
+            display = display.replace(/^(Cours|TD|TP) ?: ?/i, '');
+            display = display.replace(/^(francais|espagnol)-/i, '');
+                return `<div class="pdf-card">
+                <h3>${display}</h3>
+                <a href="${submodule}/${file}" target="_blank"><p>Voir le PDF</p></a>
+                </div>`;
+        }).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        const module = 'LE1';
+        fetch(`../../get_files.php?module=${module}&submodule=Espagnol`)
+            .then(response => response.json())
+            .then(data => {
+            document.getElementById('espagnol-cours-list').innerHTML = createFileLinks(data.cours, module, 'Espagnol');
+            document.getElementById('espagnol-td-list').innerHTML = createFileLinks(data.td, module, 'Espagnol');
+            document.getElementById('espagnol-tp-list').innerHTML = createFileLinks(data.tp, module, 'Espagnol');
+        });
+
+        fetch(`../../get_files.php?module=${module}&submodule=Français`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('francais-cours-list').innerHTML = createFileLinks(data.cours, module, 'Français');
+                document.getElementById('francais-td-list').innerHTML = createFileLinks(data.td, module, 'Français');
+               document.getElementById('francais-tp-list').innerHTML = createFileLinks(data.tp, module, 'Français');
+            });
+    });
+    </script>
 </body>
 </html> 

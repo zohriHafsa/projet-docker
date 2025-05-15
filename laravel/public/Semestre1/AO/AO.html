@@ -25,7 +25,7 @@
                                 <a href="../C/C.html">Structure de Données en C</a>
                                 <a href="../LE1/LE.html">Langues étrangères 1</a>
                                 <a href="../RI/RI.html">Réseaux informatiques</a>
-                                <a href="../ThG&RO/ThG.html">Théorie des Graphes et RO</a>
+                                <a href="../ThG_RO/ThG.html">Théorie des Graphes et RO</a>
                                 <a href="../AO/AO.html">Architecture des Ordinateurs et Assembleur</a>
                             </div>
                         </div>
@@ -53,22 +53,11 @@
             
             <h2 style="color: #4169E1; margin-top: 3rem;">Cours:</h2>
             <p>le code des cours est :<b> GI1@2024</b></p>
-            <div class="pdf-container">
-                <div class="pdf-card">
-                    <h3>Chapitre 1 & 2</h3>
-                    <a href="Chap. 1-2 Cours Architecture des Ordinateurs&Assembleur GI1 ENSATe 2024 A.Mansour VF.pdf" target="_blank">
-                        <p>Voir le PDF</p>
-                    </a>
-                </div>
-                <div class="pdf-card">
-                    <h3>Chapitre 3 & 4</h3>
-                    <a href="Chap. 3-4 Cours Architecture des Ordinateurs&Assembleur GI1 ENSATe 2024 A.Mansour.pdf" target="_blank">
-                        <p>Voir le PDF</p>
-                    </a>
-                </div>
-            </div>
+            <div id="cours-list"></div>
 
-            <h2 style="color: #4169E1; margin-top: 3rem;">TDs:</h2>
+            <h2 style="color: #4169E1; margin-top: 3rem;">TDs & TPs:</h2>
+            <div id="td-list"></div>
+            <div id="tp-list"></div>
         </div>
     </main>
 
@@ -76,12 +65,38 @@
         <p>suivez-nous et contactez-nous ici ! </p> 
         <div class="social-links">
             <center>
-                <a href="https://www.instagram.com/ensa_tetouan_officiel?igsh=N3U1MTMzdDYxbmFp" class="social-icon" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="mailto:ensate@uae.ac.ma" class="social-icon"  target="_blank"><i class="far fa-envelope"></i></a>
+                <a target="_blank" href="https://www.instagram.com/ensa_tetouan_officiel?igsh=N3U1MTMzdDYxbmFp" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a  href="mailto:ensate@uae.ac.ma" class="social-icon"  target="_blank" ><i class="fas fa-envelope"></i></a>
             </center>
         </div> 
         <hr>
-        <p>©2025 ENSA TÉTOUAN-Université Abdelmalek Essaâdi </p>
+        <p>©2025 ENSA TÉTOUAN-Université Abdelmalek Essaâdi. TOUS LES DROITS SONT RÉSERVÉS. </p>
     </footer>
+    <script>
+        function createFileLinks(files, module) {
+            if (!files.length) return '';
+            const cards = files.map(file => {
+                let display = file.replace(/^(Cours|Td|Tp) - /i, '').replace(/\.pdf$/i, '').replace(/_/g, ' ');
+                display = display.replace(/^(Cours|TD|TP) ?: ?/i, '');
+                return `<div class="pdf-card">
+                    <h3>${display}</h3>
+                    <a href="${file}" target="_blank"><p>Voir le PDF</p></a>
+                </div>`;
+            }).join('');
+            return `<div class="pdf-container">${cards}</div>`;
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            const module = 'AO';
+            fetch(`../../get_files.php?module=${module}`)
+                .then(response => response.json())
+                .then(data => {
+                    const statics = Array.from(document.querySelectorAll('.pdf-container .pdf-card a')).map(a => a.getAttribute('href'));
+                    document.getElementById('cours-list').innerHTML = createFileLinks(data.cours.filter(f => !statics.includes(f)), module);
+                    document.getElementById('td-list') && (document.getElementById('td-list').innerHTML = createFileLinks(data.td.filter(f => !statics.includes(f)), module));
+                    document.getElementById('tp-list') && (document.getElementById('tp-list').innerHTML = createFileLinks(data.tp.filter(f => !statics.includes(f)), module));
+                });
+        });
+    </script>
 </body>
 </html> 
